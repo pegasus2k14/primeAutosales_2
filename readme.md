@@ -7,3 +7,4 @@ y base de datos MySQL
 Proyecto realizado con fines didaticos.
 
 ##Version del proyecto
+Verdion 2 del proyecto
