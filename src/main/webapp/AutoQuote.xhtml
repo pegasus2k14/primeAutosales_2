@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./layout/template.xhtml">
+
+            <ui:define name="content">
+                <h2>Solicitar una Cita</h2>
+                <br/>
+                <p>
+                    Use el siguiente formulario cuando necesite solicitar una Cita 
+                    indicando la fecha exacta en que desea la cita.
+                </p>
+                <br/>
+                <br/>
+                <!--Formulario-->
+                <h:form id="autoQuoteForm">
+                    <p:panelGrid columns="2"> 
+                        <p:outputLabel for="firstName" value="Nombre:"/>
+                        <p:inputText id="firstName" value=""/>
+
+                        <p:outputLabel for="lastName" value="Apellidos:"/>
+                        <p:inputText id="lastName" value=""/>
+
+                        <p:outputLabel for="phone" value="Telefono:"/>
+                        <p:inputMask id="phone" value="" mask="(999) 999-9999"/>
+
+                        <p:outputLabel for="make" value="Marca:"/>
+                        <p:inputText id="make" value=""/>
+
+                        <p:outputLabel for="model" value="Modelo:"/>
+                        <p:inputText id="model" value=""/>
+
+                        <p:outputLabel for="year" value="Año:"/>
+                        <p:inputText id="year" value=""/>
+
+                        <p:outputLabel for="description" value="Descripcion:"/>
+                        <p:inputTextarea id="description" value="" cols="20" rows="5"/>
+
+                        <p:outputLabel for="quoteDate" value="Fecha de cita:"/>
+                        <p:calendar id="quoteDate" required="true" />
+
+                    </p:panelGrid> 
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

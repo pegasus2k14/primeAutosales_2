@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./layout/template.xhtml">
+
+            <ui:define name="content">
+                <!--Componente de pestañas -->
+                <p:tabView>
+                    <!--Pestañas-->
+                    <p:tab title="Informacion">
+                        Informacion
+                    </p:tab>
+                    <p:tab title="Especificacion">
+                        Especificaciones
+                    </p:tab>
+                    <p:tab title="Especificaciones de las ruedas" 
+                           rendered="#{(indexController.tipoVehiculo eq 'suv') or (indexController.tipoVehiculo eq 'pickup')}">
+                        Especificaciones del tipo de ruedas del automovil
+                    </p:tab>
+                </p:tabView>
+                <p:tabView value="#{indexController.listVehiculo}" var="vehiculo">
+                    <p:tab title="#{vehiculo.marca}">
+                        #{vehiculo.modelo}
+                    </p:tab>
+                </p:tabView>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

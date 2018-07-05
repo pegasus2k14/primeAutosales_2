@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head>
+        <title>Facelet Title</title>
+    </head>
+    <body>
+        <ui:composition template="layout/template.xhtml">
+            <ui:define name="content">
+
+                <h:form id="form">
+                    <p:growl id="aboutMessage" showDetail="true"/>
+                    <p:accordionPanel>
+                        <p:ajax event="tabChange" listener="#{aboutController.tabChange}" update=":form:aboutMessage"/>
+                        <!--:frmTemplate  es el formulario que forma parte de la plantilla usada por esta vista -->
+                        <p:tab title="About">
+                            La primera venta de Autos en el Pais
+                        </p:tab>
+
+                        <p:tab title="Contacto">
+                            Informacion de contacto de la Compañia
+                        </p:tab>
+                        <p:tab title="Mapa">
+                            Como llegar a la Compañia
+                        </p:tab>
+                    </p:accordionPanel>
+                </h:form>   
+            </ui:define> 
+        </ui:composition> 
+    </body>
+</html>

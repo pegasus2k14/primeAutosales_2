@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelets Template</title>
+    </h:head>
+
+ <h:body> 
+     
+        <!--Agregamos componente de Diseño-->
+        <p:layout fullPage="true">
+            <p:ajax event="resize" listener="#{indexController.layoutResizeEvent}"/>
+            <p:layoutUnit position="north"> Prime Auto Sales</p:layoutUnit>
+            <p:layoutUnit position="south"> Footer</p:layoutUnit>
+            <p:layoutUnit header="Informacion" position="east" closable="true" resizable="true" size="150"> N/A</p:layoutUnit>
+            <p:layoutUnit header="Menu" position="west" collapsible="true" resizable="true" size="150">
+                <h:form id="menuForm">
+                    <p:commandLink id="homeLink" ajax="false" action="/index" value="Home"/>
+                    <br/>
+                    <p:commandLink id="aboutLink" ajax="false" action="/about" value="About Us"/>
+                    <br/>
+                    <p:commandLink id="registrationLink" ajax="false" action="/userRegistration" value="Registro usuario"/>
+                    <br/>
+                    <p:commandLink id="currentUsers" ajax="false" action="/admin/currentUsers"  value="Usuarios Actuales"/>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center"> <ui:insert name="content"/> </p:layoutUnit>
+        </p:layout>
+    
+    </h:body>
+</html>

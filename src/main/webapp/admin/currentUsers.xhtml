@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <title>Usuarios registrados</title>
+        <f:metadata>
+            <!--<f:viewAction action="#{userRegistrationController.populateUser()}" onPostback="true"/> -->
+            <f:event type="postAddToView" listener="#{userRegistrationController.populateUser()}" />
+        </f:metadata>
+    </h:head>
+    
+    <h:body> 
+        <ui:composition template="./../layout/template.xhtml">
+
+            <ui:define name="content">
+                <h1>Usuarios actualmente registrados</h1>
+                <h:form id="userCurrentForm">
+                    <p:growl id="currentUsersMessages" showDetail="true"/>
+                    <!--Data Table -->
+                    <p:dataTable id="iserRegisteredTbl" var="userItem"  value="#{userRegistrationController.listUser}" 
+                                 editable="true" editMode="cell"  sortMode="multiple" resizableColumns="true"
+                                 draggableColumns="true"> 
+                        <!--Peticion Ajax para persistir los cambios en la BD-->
+                        <p:ajax event="cellEdit" listener="#{userRegistrationController.cellEditAction}"
+                                update=":userCurrentForm:currentUsersMessages"/>
+                       
+                        <!--Agregamos encabezado a la tabla-->
+                        <f:facet name="header">
+                            Lista Actual de usuarios
+                            <p:commandButton id="coltoggler" type="button" value="Columnas" style="float: right" 
+                                             icon="ui-icon-calculator"/>
+                            <p:columnToggler datasource="iserRegisteredTbl" trigger="coltoggler"/>
+                            
+                        </f:facet>
+                        <p:column id="firstName" headerText="First Name" sortBy="#{userItem.firstname}" resizable="false">
+                            <!--Componente editor de celda-->
+                            <p:cellEditor>
+                                <!--Salida de la celda-->
+                                <f:facet name="output">
+                                    <h:outputText value="#{userItem.firstname}"/>
+                                </f:facet>
+                                <!--Entrada de la celda-->
+                                <f:facet name="input">
+                                    <h:inputText id="firstNameInput" value="#{userItem.firstname}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                            
+                        </p:column>
+                        <p:column id="lastName" headerText="Last Name" sortBy="#{userItem.lastname}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{userItem.lastname}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:inputText id="lastNameInput" value="#{userItem.lastname}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                            
+                        </p:column>
+                        <p:column id="age" headerText="Age" sortBy="#{userItem.age}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{userItem.age}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:spinner id="ageInput" value="#{userItem.age}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                            
+                        </p:column>
+                        <p:column id="email" headerText="Email" sortBy="#{userItem.email}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{userItem.email}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:inputText id="emailInput" value="#{userItem.email}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                            
+                        </p:column> 
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

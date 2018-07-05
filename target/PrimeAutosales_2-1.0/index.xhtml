@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="layout/template.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <!--Barra de notificaciones-->
+                    <p:notificationBar position="top" effect="slide" widgetVar="bar">
+                        <h:outputText value="Ocultamiento completo" style="font-size: 36px"/>
+                        <p:commandButton value="ocultar" onclick="PF('bar').hide();" type="button" icon="ui-icon-arrow-1-n"/>
+                    </p:notificationBar>
+                    <!--Panel-->
+                    <p:panel header="Prime auto sales" closable="true" toggleable="true" closeTitle="cerrar">
+                        Bienvenidos a Prime Auto Sales, tenemos cientos de autos
+                        en venta
+                        <p:graphicImage library="images" name="toyota.jpg" width="125" height="100"/>
+                        <p:fieldset legend="Automovil" toggleSpeed="300" toggleable="true">
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="chevrolet.png" width="125" height="100"/>
+                                <h:outputText value="Autos de alta calidad"/>
+                                <p:commandButton value="Ver Automoviles" action="#{indexController.navegarAuto()}" ajax="false"/>
+                                <h:panelGroup/>
+                            </p:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset legend="Pick up" toggleSpeed="300" toggleable="true">
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="pick-up.jpg" width="125" height="100"/>
+                                <h:outputText value="Pick ups de alta calidad"/>
+                                <p:commandButton value="Ver Pickups" action="#{indexController.navegarPickup()}" ajax="false"/>
+                                <h:panelGroup/>
+                            </p:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset legend="SUV" toggleSpeed="300" toggleable="true">
+                            <p:ajax event="toggle" onsuccess="PF('bar').show();"/>
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="suvHonda.jpg" width="125" height="100"/>
+                                <p:scrollPanel mode="native" style="width: 500px; height: 50px">
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                </p:scrollPanel>
+                                <!--p:commandButton value="Ver SUV" action="#{indexController.navegarSuv()}" ajax="false"/>-->
+                                <h:panelGroup/>
+
+                            </p:panelGrid>
+                        </p:fieldset>
+                    </p:panel>
+                  </h:form>  
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>
+

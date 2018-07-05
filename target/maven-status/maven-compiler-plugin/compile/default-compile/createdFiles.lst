@@ -1,0 +1,8 @@
+com\primefacesautosale2\jsf\AboutController.class
+com\primefacesautosale2\jsf\indexController.class
+com\primefacesautosale2\dao\UserDao.class
+com\primefacesautosale2\entity\User.class
+com\primefacesautosale2\jsf\UserRegistrationController.class
+com\primefacesautosale2\jsf\Vehiculo.class
+com\primefacesautosale2\dao\GenericDao.class
+com\promefacesautosales2\bean\LazyUserModel.class

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Registro de Usuarios</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    
+    <h:body>
+        <ui:composition template="layout/template.xhtml">
+            <ui:define name="content">
+                <!--Formulario-->
+                <h:form id="userRegistrationForm" >
+                    <!--Componente de mensaje -->
+                    <p:growl id="userRegistrationMessage" showSummary="true" />
+                    <br/>
+                    <!--Componente Wizard-->
+                    <p:wizard id="userRegistrationWizard" flowListener="#{userRegistrationController.flowHandler}">
+                      <!--Pestañas del Wizard-->
+                      <p:tab id="userRegistration" title="Registro de usuario">
+                          <p:panelGrid columns="3">
+                             
+                              <p:outputLabel for="firstName" value="Nombres:"/>
+                              <p:inputText id="firstName" value="#{userRegistrationController.current.firstname}"
+                                           required="true" requiredMessage="Debes ingresar tu nombre!">
+                                  <f:validateLength minimum="2"/>
+                              </p:inputText>
+                              <p:message for="firstName"/>
+                              
+                              <p:outputLabel for="lastName" value="Apellidos"/>
+                              <p:inputText id="lastName" value="#{userRegistrationController.current.lastname}"
+                                           required="true" requiredMessage="Debes ingresar tu Apellido!">
+                                  <f:validateLength minimum="2"/>
+                              </p:inputText>
+                              <p:message for="lastName"/>
+                              
+                              <p:outputLabel for="age" value="Edad"/>
+                              <p:inputText id="age" value="#{userRegistrationController.current.age}"
+                                           required="true" requiredMessage="Debes ingresar tu Edad!">
+                                  <f:validateDoubleRange minimum="18"/>
+                              </p:inputText>
+                              <p:message for="age"/>
+                              
+                              <p:outputLabel for="email" value="Email"/>
+                              <p:inputText id="email" value="#{userRegistrationController.current.email}"
+                                           required="true" requiredMessage="Debes ingresar tu Email!">
+                                  <f:validateRegex 
+                                      pattern="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"/> 
+                              </p:inputText>
+                              <p:message for="email"/>
+                              
+                              <p:outputLabel for="enableNotifications" value="Habilitar Notificaciones"/>
+                              <p:selectBooleanCheckbox id="enableNotifications" value="#{userRegistrationController.current.enableNotifications}"/> 
+                          </p:panelGrid>
+                      </p:tab>
+                      
+                      <p:tab id="suscription" title="Suscripciones">
+                          <p:panelGrid columns="2">
+                              <p:outputLabel for="newsletter" value="Newsletter"/>
+                              <p:selectBooleanCheckbox id="newsletter" value="#{userRegistrationController.current.newsletter}"/> 
+                              
+                              <p:outputLabel for="emailNotification" value="Email Notifications:"/>
+                              <p:selectBooleanCheckbox id="emailNotification" value="#{userRegistrationController.current.emailNotification}"/>
+                          </p:panelGrid>
+                      </p:tab>
+                      
+                      <p:tab id="confirm" title="Confirmacion">
+                          Estas por crear el usuario....<p:outputLabel value="#{userRegistrationController.current.email}"/> 
+                          <br/>
+                          <p:commandButton id="createUser" value="Crear usuario"
+                                           actionListener="#{userRegistrationController.createUser()}"   update="userRegistrationMessage"/>
+                      </p:tab>
+                    </p:wizard>
+                    
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
