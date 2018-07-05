@@ -11,3 +11,7 @@ Verdion 2 del proyecto
 
 
 ##Fecha de finalizacion
+
+
+##Log personal
+-Agregado .gitIgnore
