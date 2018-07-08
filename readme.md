@@ -16,3 +16,4 @@ Verdion 2 del proyecto
 ##Log personal
 -Agregado .gitIgnore
 -Commit con texto de descripcion de mas de una sola linea
+-Commit sin pasar por el area de preparacion.
