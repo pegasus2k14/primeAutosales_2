@@ -8,6 +8,10 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
+    <!--indiamocs que se ejecute el metodo 'loadAutomobiles()' antes que se dibuje el HTML-->
+    <f:metadata>
+        <f:viewAction action="#{primeAutomobileController.loadAutomobiles()}"/>
+    </f:metadata>
     <h:body>
         <ui:composition template="layout/template.xhtml">
             <ui:define name="content">
@@ -22,6 +26,24 @@
                         Bienvenidos a Prime Auto Sales, tenemos cientos de autos
                         en venta
                         <p:graphicImage library="images" name="toyota.jpg" width="125" height="100"/>
+                        <br/>
+                        <!--agregamos componente Carousel -->
+                        <p:carousel headerText="PrimeDeals" numVisible="2" effect="slide" circular="true"
+                                    value="#{primeAutomobileController.listPrimeAutomobile}" var="auto" style="width: 60%">
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Marca" for="marca"/>
+                                <h:outputText id="marca" value="#{auto.make}"/>
+                                <h:outputLabel value="Modelo" for="model"/>
+                                <h:outputText id="Modelo" value="#{auto.modelo}"/>
+                                <h:outputLabel value="Año" for="year"/>
+                                <h:outputText id="year" value="#{auto.yearMade}"/>
+                            </p:panelGrid>
+                            <h:outputLabel value="Descripcion" for="desc"/>
+                            <br/>
+                            <h:inputTextarea id="desc" value="#{auto.description}" cols="30" rows="3" readonly="true"/>
+                            
+                        </p:carousel>   
+                        
                         <p:fieldset legend="Automovil" toggleSpeed="300" toggleable="true">
                             <p:panelGrid columns="2">
                                 <p:graphicImage library="images" name="chevrolet.png" width="125" height="100"/>
