@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pm="http://primefaces.org/mobile">
+
+    <!--Indicamos el Render KIT a usar-->
+    <f:view renderKitId="PRIMEFACES_MOBILE"/>
+
+    <h:head>
+
+    </h:head>
+
+    <h:body>
+        <!--Envolvemos el contenido mediante una etiqueta de pagina -->
+        <pm:page id="first">
+
+            <!--Indicamos el encabezado de la pagina -->
+            <pm:header>Solicitar una Cita</pm:header>
+
+            <!--Indicamos  lo que sera el contenido de la pagina -->
+            <pm:content>
+                <br/>
+                <p>
+                    Use el siguiente formulario cuando necesite solicitar una Cita 
+                    indicando la fecha exacta en que desea la cita.
+                </p>
+                <br/>
+                <!--Formulario-->
+
+                <h:form id="autoQuoteForm">
+                    <!--Componente Dialog-->
+                    <p:dialog widgetVar="progressDialog" header="Prueba">
+                        <p:outputLabel value="Prueba"/>
+                    </p:dialog>
+
+                     <p:messages id="messages" autoUpdate="true" showDetail="true"/>
+                        <pm:field>
+                            <h:outputText id="testMensaje" value="#{primeAutoQuoteController.testMessage}"/> 
+                        </pm:field>
+                        <pm:field>
+                            <p:outputLabel for="firstName" value="Nombre:"/>
+                            <p:inputText id="firstName" value="#{primeAutoQuoteController.current.firstName}" required="true"/>
+                        </pm:field>
+                        <pm:field>
+                            <p:outputLabel for="lastName" value="Apellidos:"/>
+                            <p:inputText id="lastName" value="#{primeAutoQuoteController.current.lastName}" required="true"/>
+                        </pm:field>
+                        <pm:field>
+                            <p:outputLabel for="phone" value="Telefono:"/>
+                            <p:inputMask id="phone" value="#{primeAutoQuoteController.current.phone}" mask="(999) 999-9999" required="true"/>
+                        </pm:field>
+                        
+                    <pm:field>
+                        <p:outputLabel for="make" value="Marca:" />
+                        <p:autoComplete id="make" value="#{primeAutoQuoteController.current.make}"  forceSelection="true" minQueryLength="3"
+                                        completeMethod="#{primeAutoQuoteController.autoCompleteMake}" required="true">
+                            <p:ajax event="itemSelect"  update="modelo" global="false"/>
+                        </p:autoComplete>
+                    </pm:field>
+                    <pm:field>
+                        <p:outputLabel for="modelo" value="Modelo:"/>
+                        <p:selectOneRadio id="modelo" value="#{primeAutoQuoteController.primeModelSelected}" converter="primeModelConverter" required="true">
+                            <f:selectItems value="#{primeAutoQuoteController.getAllPrimeModells()}" 
+                                           var="var" itemLabel="#{var.modelo}" itemValue="#{var}"/>
+                        </p:selectOneRadio>
+                    </pm:field>
+                    <pm:field>
+                        <p:outputLabel for="year" value="Año:"/>
+                        <p:inputText id="year" value="#{primeAutoQuoteController.current.yearmade}" required="true"/>
+                    </pm:field>
+                    <pm:field>
+                        <p:outputLabel for="description" value="Descripcion:"/>
+                        <p:inputTextarea id="description" value="#{primeAutoQuoteController.current.texto}" 
+                                         autoResize="true" cols="20" rows="5" required="true"/>
+                    </pm:field>
+                    <pm:field>
+                        <p:outputLabel for="quoteDate" value="Fecha de cita:"/>
+                        <p:calendar id="quoteDate" value="#{primeAutoQuoteController.current.quoteDate}"
+                                    pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" required="true" />
+                    </pm:field>
+                    <pm:field>
+                        <p:outputLabel for="optIn" value="Recibir boletines informativos"/>
+                        <p:selectBooleanCheckbox id="optIn" value="#{primeAutoQuoteController.option}">
+                            <p:ajax/>
+                        </p:selectBooleanCheckbox>
+                    </pm:field>
+                    <pm:field>    
+                        <p:commandButton value="Guardar" action="#{primeAutoQuoteController.saveQuoteMobile()}"
+                                         update="@form"/>
+                    </pm:field>
+
+                </h:form>
+                <!--Navegacion a la segunda vista mobile-->
+                <h:form>
+                    <p:commandLink value="Segunda vista Mobile" ajax="true"
+                                   action="#{primeAutoQuoteController.navigateToSecondMobile()}"
+                                   update="@form"/>
+                </h:form>
+                
+            </pm:content>
+        </pm:page>
+        
+        <!--Agregamos una segunda pagina -->
+                <pm:page id="second">
+                    <pm:header>Segunda pagina de una Vista con multiples paginas </pm:header>
+                    
+                    <pm:content>
+                         Esta es la segunda pagina ...
+                        <!-- Enlace para retornar a la primera pagina -->
+                        <p:link outcome="pm:first?transition=slidedown" value="Regresar"/>
+                    </pm:content>
+                </pm:page>
+                
+                <!--Tercera pagina -->
+               <pm:page id="success">
+                    <pm:header>Guardado!!</pm:header>
+                    
+                    <pm:content>
+                         El guardado de Cita se realizo exitosamente ...
+                        <!-- Enlace para retornar a la primera pagina -->
+                        <p:link outcome="pm:first?transition=slidedown" value="Regresar"/>
+                    </pm:content>
+                </pm:page>
+                
+    </h:body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+
+        <ui:composition template="./../layout/template.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="growl" showSummary="true" showDetail="true" />
+                <h:form id="ventasForm">
+                    <p:panel header="Sales Dash">
+                        <p:chart id="salesChar" type="line"
+                                 model="#{ventasController.salesChartModel}"
+                                 style="height: 250px"/>
+                    </p:panel>
+                    
+                    <!-- Grafico de Lineas Dinamico (Acceso a BD)-->
+                     <p:panel header="Sales Dash DB">
+                        <p:chart id="salesCharDB" type="line"
+                                 model="#{ventasController.salesChartModelDB}"
+                                 style="height: 250px"/>
+                    </p:panel>
+                    
+                     <!-- Grafico de Lineas Dinamico (Sin acceso a BD)-->
+                     <p:panel header="Sales Chart">
+                        <p:chart id="salesChartBar" type="bar"
+                                 model="#{ventasController.salesBarModel}"
+                                 style="height: 250px"/>
+                    </p:panel>
+                     
+                     <!-- Grafico de Barras (Sin acceso a BD)-->
+                     <p:panel header="Sales %">
+                        <p:chart id="salesPieChart" type="pie"
+                                 model="#{ventasController.salesPieChartModel}"
+                                 style=" width: 500px; height: 400px">
+                         
+                            <p:ajax event="itemSelect" listener="#{ventasController.itemSelect}" update="growl"/>
+                        </p:chart>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

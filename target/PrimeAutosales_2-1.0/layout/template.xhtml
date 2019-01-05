@@ -8,28 +8,86 @@
 
     <h:head>
         <title>Facelets Template</title>
+      <script type="text/javascript">
+            function handleRequest(xhr,status,args){
+                alert(args.newValue);
+            }
+        </script>
     </h:head>
 
  <h:body> 
+     
+     <!--Componente Dialog-->
+     <p:dialog header="Encuesta" id="pollDialog" widgetVar="pollDialog" modal="true" showEffect="blind" hideEffect="bounce">
+         Aqui esta nuestra encuesta por ahora! 
+     </p:dialog>
      
         <!--Agregamos componente de Diseño-->
         <p:layout fullPage="true">
             <p:ajax event="resize" listener="#{indexController.layoutResizeEvent}"/>
             <p:layoutUnit position="north"> Prime Auto Sales</p:layoutUnit>
             <p:layoutUnit position="south"> Footer</p:layoutUnit>
-            <p:layoutUnit header="Informacion" position="east" closable="true" resizable="true" size="150"> N/A</p:layoutUnit>
+            <p:layoutUnit header="Informacion" position="east" closable="true" resizable="true" size="150">
+                <h:form>
+               <!--Componente boton para levantar el p:dialog -->
+               <p:commandButton  actionListener="#{pollController.invokePoll()}" value="Encuesta">
+                   <p:ajax event="dialogReturn" listener="#{pollController.handleReturn}"/>
+               </p:commandButton>
+               
+               <!--Boton que despliega un ConfirmDialog -->
+               <p:commandButton  value="Clearence"  actionListener="#{indexController.navigateToContinuar()}">
+                   <p:confirm header="Confirmación" message="Estas en buena salud para recistir estas increibles ofertas?"
+                              icon="ui-icon-alert"/>
+                </p:commandButton>   
+               <p:confirmDialog global="true" showEffect="slide"  hideEffect="explode">
+                       <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                       <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                   </p:confirmDialog>
+               
+                </h:form> 
+            </p:layoutUnit>
+             
+               
             <p:layoutUnit header="Menu" position="west" collapsible="true" resizable="true" size="150">
                 <h:form id="menuForm">
-                    <p:commandLink id="homeLink" ajax="false" action="/index" value="Home"/>
+                    <p:commandLink id="homeLink" ajax="false" action="/index?faces-redirect=true" value="Home"/>
                     <br/>
                     <p:commandLink id="aboutLink" ajax="false" action="/about" value="About Us"/>
                     <br/>
                     <p:commandLink id="registrationLink" ajax="false" action="/userRegistration" value="Registro usuario"/>
                     <br/>
-                    <p:commandLink id="currentUsers" ajax="false" action="/admin/currentUsers"  value="Usuarios Actuales"/>
+                    <p:commandLink id="currentUsers" ajax="false" action="/admin/currentUsers?faces-redirect=true"  value="Usuarios Actuales"/>
+                    <br/>
+                    <p:commandLink id="selectAutomobile" ajax="false" action="/pickListView?faces-redirect=true" value="Seleccion Automoviles"/>
+                    <br/>
+                    <p:commandLink id="automobileExport" ajax="false" action="/automovil?faces-redirect=true" value="Detalle Automoviles"/>
+                    <br/>
+                    <p:commandLink id="automobileQuote" ajax="false" action="/AutoQuote?faces-redirect=true" value="Solicitar Cita"/>
+                    <br/>
+                    <p:commandLink id="automobileDetail" ajax="false" action="/PrimeAutomobileDetail?faces-redirect=true" value="Detalle Automovil"/>
+                    <br/>
+                    <p:commandLink id="salesDashLineas" ajax="false" action="/admin/salesDash?faces-redirect=true"  value="Sales"/>
+                    <br/>
                 </h:form>
             </p:layoutUnit>
-            <p:layoutUnit position="center"> <ui:insert name="content"/> </p:layoutUnit>
+            <p:layoutUnit position="center"> 
+                <!--Componente de mensajes para las notificaciones Push-->
+                <p:growl id="pmsg" widgetVar="broadcastGrowl" showSummary="true" showDetail="true"/>
+                <!--Agregamos un componente Socket , en este se indica el canal que se escuchara
+                    Controlador de eventos de Javascript que se procesa cuando el servidor publica datos.-->
+                <p:socket onMessage="messageHandler" channel="/message" />
+               
+                <!--implementacion de la funcion 'messageHandler' -->
+                <script type="text/javascript" >
+                    function messageHandler(facesmessage) {
+                        facesmessage.severity ='info';
+                        PF('broadcastGrowl').show([facesmessage]);
+                    }
+                </script>
+                    
+              
+             <ui:insert name="content"/> 
+            </p:layoutUnit>
         </p:layout>
     
     </h:body>

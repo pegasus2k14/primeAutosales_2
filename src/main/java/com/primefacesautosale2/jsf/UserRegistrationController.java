@@ -3,12 +3,17 @@ package com.primefacesautosale2.jsf;
 import com.primefacesautosale2.dao.UserDao;
 import com.primefacesautosale2.entity.User;
 import com.promefacesautosales2.bean.LazyUserModel;
+import com.promefacesautosales2.bean.LazyUserModelPagFilter;
+import com.promefacesautosales2.bean.LazyUserModelPagSort;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
@@ -16,19 +21,33 @@ import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "userRegistrationController")
 @SessionScoped
-public class UserRegistrationController {
+public class UserRegistrationController  implements  Serializable{
     
    //Variables
     private User current = new User();
-    private UserDao userDao;
+    private UserDao userDao = new UserDao();
     //Variable tipo Lista de Usuarios
-    private List<User> listUser;
+    private List<User> listUser ;
     
     //Variable de tipo LazyUserModel
     private LazyUserModel lazyUserModel;
     
+    //Variable de tipo LazyUserModelPagSort
+    private LazyUserModelPagSort lazyUserModelPagSort;
+    
+    private LazyUserModelPagFilter lazyUserModelPagFilter;
+    
     //Constructor vacio
     public UserRegistrationController() {
+    }
+    
+    //Metodo inicializador
+    @PostConstruct
+    public void init(){
+       //lazyUserModel = new LazyUserModel();
+       //this.listUser = userDao.getAllUsers();
+       //lazyUserModelPagSort = new LazyUserModelPagSort();
+       lazyUserModelPagFilter = new LazyUserModelPagFilter();
     }
     
     
@@ -143,6 +162,34 @@ public class UserRegistrationController {
        
  }
  
+ //Metodo que es invocado desde el Dialog y permite
+ //actualizar los datos del usuario
+ public void saveUser(){
+     try{
+        //Creamos variable de tipo RequestContext
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        
+        //Si la nueva edad es >= 18 entonces se realiza la modificacion
+         if(current.getAge() >=18){
+             userDao.updatetUser(current);
+             //Agregamos un parametro a la respuesta de la peticion
+             //Se procesara en el cliente para saber si la accion de actualizacion
+             //del usuario fue exitosa
+             requestContext.addCallbackParam("age", true);
+             
+             //Creamos el mensaje
+             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario actualizado", null);
+             FacesContext.getCurrentInstance().addMessage(null, message);
+         }else{
+             requestContext.addCallbackParam("age", false);
+             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Edad invalida", null);
+             FacesContext.getCurrentInstance().addMessage(null, message);
+         } 
+     }catch(Exception e){
+         e.printStackTrace();
+     }
+ }
+ 
 //Getter y Setters
     
     //Metodo que devuelve una instancia de 'User'
@@ -169,6 +216,22 @@ public class UserRegistrationController {
 
     public void setLazyUserModel(LazyUserModel lazyUserModel) {
         this.lazyUserModel = lazyUserModel;
+    }
+
+    public LazyUserModelPagSort getLazyUserModelPagSort() {
+        return lazyUserModelPagSort;
+    }
+
+    public void setLazyUserModelPagSort(LazyUserModelPagSort lazyUserModelPagSort) {
+        this.lazyUserModelPagSort = lazyUserModelPagSort;
+    }
+
+    public LazyUserModelPagFilter getLazyUserModelPagFilter() {
+        return lazyUserModelPagFilter;
+    }
+
+    public void setLazyUserModelPagFilter(LazyUserModelPagFilter lazyUserModelPagFilter) {
+        this.lazyUserModelPagFilter = lazyUserModelPagFilter;
     }
 
     

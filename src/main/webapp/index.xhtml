@@ -16,6 +16,10 @@
         <ui:composition template="layout/template.xhtml">
             <ui:define name="content">
                 <h:form>
+                    <!--Componente RemoteCommand-->
+                    <p:remoteCommand name="incrementVisitorCount" autoRun="true" update="visitorCount"
+                                     actionListener="#{indexController.incrementarCounter()}"/>
+                    
                     <!--Barra de notificaciones-->
                     <p:notificationBar position="top" effect="slide" widgetVar="bar">
                         <h:outputText value="Ocultamiento completo" style="font-size: 36px"/>
@@ -48,7 +52,8 @@
                             <p:panelGrid columns="2">
                                 <p:graphicImage library="images" name="chevrolet.png" width="125" height="100"/>
                                 <h:outputText value="Autos de alta calidad"/>
-                                <p:commandButton value="Ver Automoviles" action="#{indexController.navegarAuto()}" ajax="false"/>
+                                     <p:commandButton value="Ver Automoviles"  action="#{indexController.navegarAuto()}" ajax="false"/>
+                                     
                                 <h:panelGroup/>
                             </p:panelGrid>
                         </p:fieldset>
@@ -86,6 +91,7 @@
                             </p:panelGrid>
                         </p:fieldset>
                     </p:panel>
+                    <h:outputText id="visitorCount" value="#{indexController.visitorCounter}"/>
                   </h:form>  
             </ui:define>
         </ui:composition>

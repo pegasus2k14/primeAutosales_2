@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Encuesta</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputText value="Que tipo de carro prefieres?"/>
+                <p:selectOneRadio value="#{pollController.current.respuesta1}">
+                    <f:selectItem itemLabel="Car" itemValue="Car"/>
+                    <f:selectItem itemLabel="Truck" itemValue="Truck"/>
+                    <f:selectItem itemLabel="SUV"  itemValue="SUV"/>
+                </p:selectOneRadio>   
+                
+                <h:outputText value="Cuanto tiempo tipecamente posee un carro?"/>
+                <p:selectOneRadio value="#{pollController.current.respuesta2}">
+                    <f:selectItem itemLabel="1-2 años" itemValue="1-2"/>
+                    <f:selectItem itemLabel="2-4 años" itemValue="2-4"/>
+                    <f:selectItem itemLabel="mas de 4 años"  itemValue="4+"/>
+                </p:selectOneRadio>
+                <h:outputText value="Te gusta nuestro sitio?"/>
+                <p:selectOneRadio value="#{pollController.current.respuesta3}">
+                    <f:selectItem itemLabel="Si" itemValue="Si"/>
+                    <f:selectItem itemLabel="No" itemValue="No"/>
+                </p:selectOneRadio>
+                <p:column/>
+                <p:commandButton value="Enviar" actionListener="#{pollController.submitPoll()}"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>

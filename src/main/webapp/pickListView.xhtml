@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <f:metadata>
+            <f:viewAction action="#{pickListController.populateDuaListModel()}"/>
+        </f:metadata>
+
+        <ui:composition template="./layout/template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="selectAuto">
+                    <h2>Seleccion de modelos de Automoviles</h2>
+                    <br/>
+                    <p:pickList id="pick" value="#{pickListController.listDualPrimeAutomobile}" var="auto" 
+                                showSourceFilter="true" filterMatchMode="contains"
+                                responsive="true"
+                                itemLabel="#{auto.make} (#{auto.modelo})"
+                                itemValue="#{auto}"
+                                converter="automobilConverter">
+                    
+                        <f:facet name="sourceCaption">Autos Disponibles</f:facet>
+                        <f:facet name="targetCaption">Autos Seleccionados</f:facet>
+                    </p:pickList>
+                    <p:commandButton  value="Seleccionar" actionListener="#{pickListController.loadSelectedAutomobile()}" 
+                                      update=":dialogConfirm" oncomplete="PF('dlg1').show();" process="@form"/>
+                </h:form>  
+                
+                <!--Modal para confirmar la Seleccion de automoviles -->
+                <p:dialog header="Confirmacion de Seleccion" id="dialogConfirm" widgetVar="dlg1" 
+                          appendTo="@(body)" modal="true" width="40%">
+                    
+                    <h:form id="formConfirm">
+                        <p:outputLabel value="Vehiculos Seleccionados:"/>
+                        <br/>
+                        <p:dataTable var="item" value="#{pickListController.listPrimeAutomobileSelected}">
+                            <p:column headerText="Marca">
+                                <h:outputText value="#{item.make}"/>
+                            </p:column>
+                            <p:column headerText="Modelo">
+                                <h:outputText value="#{item.modelo}"/>
+                            </p:column>
+                            <p:column headerText="Descripcion">
+                                <h:outputText value="#{item.description}"/>
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <br/>
+                        <p:commandButton value="Guardar seleccion" onclick="PF('dlg1').hide()"/>
+                    </h:form>    
+                </p:dialog>
+                    
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

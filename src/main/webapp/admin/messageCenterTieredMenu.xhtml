@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../layout/template.xhtml">
+
+            <ui:define name="content">
+                    <h:form>
+                            <p:growl autoUpdate="true" showSummary="true" showDetail="true"/>
+                            <!--Componente Panel Menu -->
+                            <p:tieredMenu>
+                                <p:submenu label="Tipo documento">
+                                    <p:menuitem ajax="false" value="WikiPage" actionListener="#{messageCenterController.setTipoMensaje('W')}" 
+                                                update="messageCenterBody"/>
+                                    <p:menuitem ajax="false" value="Mensaje" actionListener="#{messageCenterController.setTipoMensaje('M')}" 
+                                                update="messageCenterBody"/>
+                                </p:submenu>
+                                <p:submenu label="Edicion">
+                                    <p:menuitem value="Bold" actionListener="#{messageCenterController.edit('Bold')}" 
+                                                update="messageCenterBody"/>  
+                                    <p:menuitem value="Underline" actionListener="#{messageCenterController.edit('Underline')}" 
+                                                update="messageCenterBody"/>
+                                    <p:menuitem value="Italic" actionListener="#{messageCenterController.edit('Italic')}" 
+                                                update="messageCenterBody"/> 
+                                </p:submenu>
+                            </p:tieredMenu>
+
+                            <p:messages autoUpdate="true" showSummary="true" showDetail="true"/>
+                            <!--Componente Panel -->
+                            <p:panel id="messageCenterBody" header="Centro de Mensajes">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel for="Email" value="Email" rendered="#{messageCenterController.tipoMensaje eq 'E'}"/>
+                                    <p:inputText id="Email" value="null" rendered="#{messageCenterController.tipoMensaje eq 'E'}"/>
+                                    <p:outputLabel for="asunto" value="Asunto" rendered="#{messageCenterController.tipoMensaje eq 'E'}"/>
+                                    <p:inputText id="asunto" value="null" rendered="#{messageCenterController.tipoMensaje eq 'E'}"/>
+                                </h:panelGrid>
+                                <p:inputTextarea id="emailMessage" cols="50" rows="10" value="null" 
+                                                 rendered="#{messageCenterController.tipoMensaje eq 'E'}"/>
+                                <p:inputTextarea id="wiki" cols="150" rows="10" value="null" 
+                                                 rendered="#{messageCenterController.tipoMensaje eq 'W'}"/>
+
+                                <p:contextMenu for="wiki" model="#{messageCenterController.menuBean.menuModel}"/>
+
+                            </p:panel> 
+
+                    </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

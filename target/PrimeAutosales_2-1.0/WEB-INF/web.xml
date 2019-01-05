@@ -17,6 +17,18 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <!--Se configura un Servlet llamado Push Servlet -->
+    <servlet>
+        <servlet-name>Push Servlet</servlet-name>
+        <servlet-class>org.primefaces.push.PushServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+    <!-- El Servlet anterior mapea la ruta /primepush/*  -->
+    <servlet-mapping>
+        <servlet-name>Push Servlet</servlet-name>
+        <url-pattern>/primepush/*</url-pattern>   
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

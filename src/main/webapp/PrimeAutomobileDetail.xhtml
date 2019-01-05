@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./layout/template.xhtml">
+
+            <ui:define name="content">
+                <p:messages id="msg" autoUpdate="true" showDetail="true"/>
+                <h:form>
+                    <h2>Detalle de modelos de automoviles</h2>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="modelcomplete" value="Seleccione el modelo"/>
+                        <p:autoComplete id="modelcomplete" minQueryLength="3" value="#{primeAutomobileDetailController.primeSelected}"
+                                        completeMethod="#{primeAutomobileDetailController.completeDetail}" var="name" forceSelection="true"
+                                        converter="automobileDetailConverter" emptyMessage="No se encontro coincidencia .."
+                                        itemLabel="#{name.modelo}" itemValue="#{name}"/>
+                                        
+                        <h:column/>
+                        <p:commandButton value="Ver detalle"  update=":det:detalle" 
+                                         actionListener="#{primeAutomobileDetailController.sendDetailMessage()}"/>                                        
+                    </h:panelGrid>
+                </h:form>
+                <br/><br/>
+                <h:form id="det"> 
+                <p:fieldset legend="Detalle">
+                    <p:panelGrid id="detalle" columns="2">
+                        <p:outputLabel for="marca" value="Marca"/>
+                        <p:inputText id="marca" value="#{primeAutomobileDetailController.primeSelected.make}" readonly="true"/>
+                        <p:outputLabel for="modelo" value="Modelo"/>
+                        <p:inputText id="modelo" value="#{primeAutomobileDetailController.primeSelected.modelo}" readonly="true"/>
+                        <p:outputLabel for="anio" value="Año de fabricacion"/>
+                        <p:inputText id="anio" value="#{primeAutomobileDetailController.primeSelected.yearMade}" readonly="true"/>
+                        <p:outputLabel for="desc" value="Descripcion"/>
+                        <p:inputText id="desc" value="#{primeAutomobileDetailController.primeSelected.description}" readonly="true"/>
+                    </p:panelGrid>
+                </p:fieldset> 
+                </h:form>     
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

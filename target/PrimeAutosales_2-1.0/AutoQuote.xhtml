@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -17,33 +18,76 @@
                     indicando la fecha exacta en que desea la cita.
                 </p>
                 <br/>
-                <br/>
                 <!--Formulario-->
+                
                 <h:form id="autoQuoteForm">
-                    <p:panelGrid columns="2"> 
-                        <p:outputLabel for="firstName" value="Nombre:"/>
-                        <p:inputText id="firstName" value=""/>
+                    <!--Componente Dialog-->
+                    <p:dialog widgetVar="progressDialog" header="Prueba">
+                        <p:outputLabel value="Prueba"/>
+                    </p:dialog>
+                    
+                    <!--Componente indicador global para mostrar retro alimentacion sobre la 
+                        solicitud ajax en curso-->
+                    <p:ajaxStatus>
+                        <f:facet name="start">
+                            Trabajando...
+                        </f:facet>   
+                        <f:facet name="complete">
+                            Finalizado procesamiento de formulario...
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <p:messages id="messages" autoUpdate="true" showDetail="true"/>
+                    
+                    <p:fragment autoUpdate="true">
+                        <h:outputText id="testMensaje" value="#{primeAutoQuoteController.testMessage}"/> 
+                        <p:panelGrid columns="2">    
+                            <p:outputLabel for="firstName" value="Nombre:"/>
+                            <p:inputText id="firstName" value="#{primeAutoQuoteController.current.firstName}" required="true"/>
 
-                        <p:outputLabel for="lastName" value="Apellidos:"/>
-                        <p:inputText id="lastName" value=""/>
+                            <p:outputLabel for="lastName" value="Apellidos:"/>
+                            <p:inputText id="lastName" value="#{primeAutoQuoteController.current.lastName}" required="true"/>
 
-                        <p:outputLabel for="phone" value="Telefono:"/>
-                        <p:inputMask id="phone" value="" mask="(999) 999-9999"/>
+                            <p:outputLabel for="phone" value="Telefono:"/>
+                            <p:inputMask id="phone" value="#{primeAutoQuoteController.current.phone}" mask="(999) 999-9999" required="true"/>
+                        </p:panelGrid>
+                        <p:commandButton widgetVar="clientValidation" value="Validar usuario" 
+                                         oncomplete="handleRequest(xhr,status,args);"
+                                         actionListener="#{primeAutoQuoteController.checkValid}"/>
+                    </p:fragment>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="make" value="Marca:" />
+                        <p:autoComplete id="make" value="#{primeAutoQuoteController.current.make}"  forceSelection="true" minQueryLength="3"
+                                        completeMethod="#{primeAutoQuoteController.autoCompleteMake}" required="true">
+                            <p:ajax event="itemSelect"  update="modelo" global="false"/>
+                        </p:autoComplete>
 
-                        <p:outputLabel for="make" value="Marca:"/>
-                        <p:inputText id="make" value=""/>
-
-                        <p:outputLabel for="model" value="Modelo:"/>
-                        <p:inputText id="model" value=""/>
+                        <p:outputLabel for="modelo" value="Modelo:"/>
+                        <p:selectOneRadio id="modelo" value="#{primeAutoQuoteController.primeModelSelected}" converter="primeModelConverter" required="true">
+                            <f:selectItems value="#{primeAutoQuoteController.getAllPrimeModells()}" 
+                                           var="var" itemLabel="#{var.modelo}" itemValue="#{var}"/>
+                        </p:selectOneRadio>
 
                         <p:outputLabel for="year" value="Año:"/>
-                        <p:inputText id="year" value=""/>
+                        <p:inputText id="year" value="#{primeAutoQuoteController.current.yearmade}" required="true"/>
 
+                        
                         <p:outputLabel for="description" value="Descripcion:"/>
-                        <p:inputTextarea id="description" value="" cols="20" rows="5"/>
+                        <p:inputTextarea id="description" value="#{primeAutoQuoteController.current.texto}" 
+                                         autoResize="true" cols="20" rows="5" required="true"/>
 
                         <p:outputLabel for="quoteDate" value="Fecha de cita:"/>
-                        <p:calendar id="quoteDate" required="true" />
+                        <p:calendar id="quoteDate" value="#{primeAutoQuoteController.current.quoteDate}"
+                                    pattern="dd/MM/yyyy" navigator="true" yearRange="c-50:c+10" required="true" />
+                        
+                        <p:outputLabel for="optIn" value="Recibir boletines informativos"/>
+                        <p:selectBooleanCheckbox id="optIn" value="#{primeAutoQuoteController.option}">
+                            <p:ajax/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:column/>
+                        <p:commandButton value="Guardar" actionListener="#{primeAutoQuoteController.saveQuote()}" 
+                                         process="@(input:not(:radio))"
+                                         update="@form"/>
 
                     </p:panelGrid> 
                 </h:form>

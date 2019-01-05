@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./layout/template.xhtml">
+
+            <ui:define name="content">
+               <h:form>
+                    <!--Barra de notificaciones-->
+                    <p:notificationBar position="top" effect="slide" widgetVar="bar">
+                        <h:outputText value="Ocultamiento completo" style="font-size: 36px"/>
+                        <p:commandButton value="ocultar" onclick="PF('bar').hide();" type="button" icon="ui-icon-arrow-1-n"/>
+                    </p:notificationBar>
+                    <!--Panel-->
+                    <p:panel header="Prime auto sales" closable="true" toggleable="true" closeTitle="cerrar">
+                        Bienvenidos a Prime Auto Sales, tenemos cientos de autos
+                        en venta
+                        <p:graphicImage library="images" name="toyota.jpg" width="125" height="100"/>
+                        <br/>
+                        <!--agregamos componente Carousel -->
+                        <p:carousel headerText="PrimeDeals" numVisible="2" effect="slide" circular="true"
+                                    value="#{primeAutomobileController.listPrimeAutomobile}" var="auto" style="width: 60%">
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Marca" for="marca"/>
+                                <h:outputText id="marca" value="#{auto.make}"/>
+                                <h:outputLabel value="Modelo" for="model"/>
+                                <h:outputText id="Modelo" value="#{auto.modelo}"/>
+                                <h:outputLabel value="Año" for="year"/>
+                                <h:outputText id="year" value="#{auto.yearMade}"/>
+                            </p:panelGrid>
+                            <h:outputLabel value="Descripcion" for="desc"/>
+                            <br/>
+                            <h:inputTextarea id="desc" value="#{auto.description}" cols="30" rows="3" readonly="true"/>
+                            
+                        </p:carousel>   
+                        <br/>
+                        <!--Componente 'TabMenu'-->
+                        <p:tabMenu id="tabMenu" activeIndex="#{indexController.tabIndexSelected}">
+                            <p:menuitem value="Automovil"
+                                        action="#{indexController.setTipoVehiculo('CAR')}" update="autoTypePanel tabMenu"/>
+                            <p:menuitem value="Camion"
+                                        action="#{indexController.setTipoVehiculo('TRUCK')}" update="autoTypePanel tabMenu"/>
+                            <p:menuitem value="SUV" action="#{indexController.setTipoVehiculo('SUV')}" update="autoTypePanel tabMenu"/>
+                        </p:tabMenu>
+                        <br/>
+                        <!--Panle de nivel superior -->
+                        <p:panel id="autoTypePanel">
+                            <p:panel header="Automovil" toggleSpeed="300" toggleable="true" visible="#{indexController.tipoVehiculo eq 'CAR'}">
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="chevrolet.png" width="125" height="100"/>
+                                <h:outputText value="Autos de alta calidad"/>
+                                     <p:commandButton value="Ver Automoviles"  action="#{indexController.navegarAuto()}" ajax="false"/>
+                                     
+                                <h:panelGroup/>
+                            </p:panelGrid>
+                        </p:panel>
+                            <p:panel header="Pick up" toggleSpeed="300" toggleable="true" visible="#{indexController.tipoVehiculo eq 'TRUCK'}">
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="pick-up.jpg" width="125" height="100"/>
+                                <h:outputText value="Pick ups de alta calidad"/>
+                                <p:commandButton value="Ver Pickups" action="#{indexController.navegarPickup()}" ajax="false"/>
+                                <h:panelGroup/>
+                            </p:panelGrid>
+                        </p:panel>
+                            <p:panel header="SUV" toggleSpeed="300" toggleable="true" visible="#{indexController.tipoVehiculo eq 'SUV'}">
+                            <p:ajax event="toggle" onsuccess="PF('bar').show();"/>
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="suvHonda.jpg" width="125" height="100"/>
+                                <p:scrollPanel mode="native" style="width: 500px; height: 50px">
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                    <h:outputText value="SUV de alta calidad"/>
+                                    <br/>
+                                </p:scrollPanel>
+                                <!--p:commandButton value="Ver SUV" action="#{indexController.navegarSuv()}" ajax="false"/>-->
+                                <h:panelGroup/>
+
+                            </p:panelGrid>
+                        </p:panel>
+                     </p:panel>
+                   </p:panel>     
+                  </h:form>  
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

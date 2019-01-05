@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <title>Usuarios registrados</title>
+    </h:head>
+    
+    <h:body> 
+        <ui:composition template="./../layout/template.xhtml">
+
+            <ui:define name="content">
+                
+                <h1>Usuarios actualmente registrados</h1>
+                <h:form id="userCurrentForm">
+                    <p:growl id="currentUsersMessages" showDetail="true"/>
+                        <!--Data Table -->  
+                        <p:dataTable id="userRegisteredTbl" var="userItem"  value="#{userRegistrationController.lazyUserModel}" 
+                                     rows="5" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" resizableColumns="true"
+                                     draggableColumns="true"
+                                     lazy="true">
+                            
+
+                            <!--Agregamos encabezado a la tabla-->
+                            <f:facet name="header">
+                                Lista Actual de usuarios
+                                <p:commandButton id="coltoggler" type="button" value="Columnas" style="float: right" 
+                                                 icon="ui-icon-calculator"/>
+                                <p:columnToggler datasource="userRegisteredTbl" trigger="coltoggler"/>
+
+                            </f:facet>
+                            <p:column id="firstName" headerText="First Name" sortBy="#{userItem.firstname}" resizable="false">
+                                
+                                        <h:outputText value="#{userItem.firstname}"/>
+
+                            </p:column>
+                            <p:column id="lastName" headerText="Last Name" sortBy="#{userItem.lastname}">
+                                <h:outputText value="#{userItem.lastname}"/>
+
+                            </p:column>
+                            <p:column id="age" headerText="Age" sortBy="#{userItem.age}">
+                                 <h:outputText value="#{userItem.age}"/>
+
+                            </p:column>
+                            <p:column id="email" headerText="Email" sortBy="#{userItem.email}">
+                                <h:outputText value="#{userItem.email}"/>
+
+                            </p:column> 
+                            <!--Levantamos el dialog y actualizamos el componente que este contiene -->
+                            <p:column id="detail" headerText="Detalle">
+                                <p:commandButton value="Ver" oncomplete="PF('userDialog').show()"
+                                                 update=":userCurrentForm:userDetail" title="Ver">
+                                    <f:setPropertyActionListener value="#{userItem}" target="#{userRegistrationController.current}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                   <!-- Dialog-->
+                   <p:dialog widgetVar="userDialog">
+                       <p:panelGrid columns="2" id="userDetail">
+                           <h:outputLabel for="firstN" value="PrimerNombre"/>
+                           <h:outputText id="firstN" value="#{userRegistrationController.current.firstname}"/>
+                           
+                           <h:outputLabel for="lastN" value="Apellidos"/>
+                           <h:outputText id="lastN" value="#{userRegistrationController.current.lastname}"/>
+                           
+                           <h:outputLabel for="edad" value="Edad"/>
+                           <p:spinner id="edad"  value="#{userRegistrationController.current.age}"/>
+                       </p:panelGrid>
+                       <p:commandButton id="save"  value="Guardar" update="currentUsersMessages, userRegisteredTbl"
+                                        actionListener="#{userRegistrationController.saveUser()}"
+                                        oncomplete="validAge(xhr,status,args)"/>
+                   </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

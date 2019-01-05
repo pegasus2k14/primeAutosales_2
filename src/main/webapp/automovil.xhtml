@@ -1,19 +1,78 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-
-    <body>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <title>Picklist</title>
+        <!--Accion a realizarce antes de que se dibuje el HTML-->
+    <f:metadata>
+        <!--<f:event type="postAddToView" listener="#{primeAutomobileController.populateAutomobileFieldList()}"/>-->
+        <f:viewAction action="#{primeAutomobileController.populateAutomobileFieldList()}"/>
+        <f:viewAction action="#{primeAutomobileController.loadAutomobiles()}"/>
+    </f:metadata>
+   </h:head> 
+    
+    <h:body>
 
         <ui:composition template="./layout/template.xhtml">
 
             <ui:define name="content">
+                <h:form>
+                <!--componente Galleria-->
+                <p:galleria id="sedanImages" value="#{primeAutomobileController.sedanImages}" var="imagen" 
+                            panelWidth="400" panelHeight="233" showCaption="true">
+                    <p:graphicImage library="images" name="#{imagen}" title="#{imagen}" id="image" height="223px" width="400px" />
+                </p:galleria>
+                    
                 <!--Componente de pestañas -->
                 <p:tabView>
                     <!--Pestañas-->
                     <p:tab title="Informacion">
-                        Informacion
+                        <!--PickList-->
+                        <p:pickList id="automobilefields" showSourceFilter="true"
+                                    value="#{primeAutomobileController.listAutomobiles}" 
+                                    var="item" itemLabel="#{item}" itemValue="#{item}"/>
+                        <br/>
+                        <p:commandButton id="Seleccion" value="Enviar" actionListener="#{primeAutomobileController.submitSelecion()}"
+                                         update="automobiles"/>
+                        <!--DataTable-->
+                        <p:dataTable id="automobiles" value="#{primeAutomobileController.listPrimeAutomobile}" var="auto">
+                            <p:column headerText="Marca" rendered="#{primeAutomobileController.renderMake}">
+                                <h:outputText value="#{auto.make}"/>
+                            </p:column>
+                            <p:column headerText="Modelo" rendered="#{primeAutomobileController.renderModel}">
+                                <h:outputText value="#{auto.modelo}"/>
+                            </p:column>
+                            <p:column headerText="Año de fabricacion" rendered="#{primeAutomobileController.renderYear}">
+                                <h:outputText value="#{auto.yearMade}"/>
+                            </p:column>
+                            <p:column headerText="Descripcion" rendered="#{primeAutomobileController.renderDescription}">
+                                <h:outputText value="#{auto.description}"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandLink ajax="false">
+                                    <p:graphicImage library="icons" name="excel.png"/>
+                                    <p:dataExporter type="xls" target="automobiles" fileName="automobilesxls"/>
+                                </p:commandLink>
+                                <p:commandLink ajax="false">
+                                    <p:graphicImage library="icons" name="pdf.png"/>
+                                    <p:dataExporter type="pdf" target="automobiles" fileName="automobilespdf"/>
+                                </p:commandLink>
+                                <p:commandLink ajax="false">
+                                    <p:graphicImage library="icons" name="csv.png"/>
+                                    <p:dataExporter type="csv" target="automobiles" fileName="automobilescsv"/>
+                                </p:commandLink>
+                                <p:commandLink ajax="false">
+                                    <p:graphicImage library="icons" name="xml.png"/>
+                                    <p:dataExporter type="xml" target="automobiles" fileName="automobilesxml"/>
+                                </p:commandLink>
+                            </f:facet>
+                        </p:dataTable>
+                        
                     </p:tab>
                     <p:tab title="Especificacion">
                         Especificaciones
@@ -23,15 +82,16 @@
                         Especificaciones del tipo de ruedas del automovil
                     </p:tab>
                 </p:tabView>
+               
                 <p:tabView value="#{indexController.listVehiculo}" var="vehiculo">
                     <p:tab title="#{vehiculo.marca}">
                         #{vehiculo.modelo}
                     </p:tab>
                 </p:tabView>
-                
+             </h:form>     
             </ui:define>
 
         </ui:composition>
 
-    </body>
+    </h:body>
 </html>

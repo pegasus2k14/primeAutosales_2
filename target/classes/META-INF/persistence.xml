@@ -5,13 +5,18 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Representamos las clases -->
     <class>com.primefacesautosale2.entity.User</class>
-    <!-- Parametros de conexion a la base de datos -->
+    
     <class>com.primefacesautosale2.entity.PrimeAutomobile</class>
+    <class>com.primefacesautosale2.entity.PrimeAutoQuote</class>
+    <class>com.primefacesautosale2.entity.Ventasdemo</class>
+    <class>com.primefacesautosale2.entity.PrimeVisitorCount</class>
+    <!-- Propiedades de conexion a la base de datos -->
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/primeautosales"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.password" value="admin"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="hibernate.show_sql" value="true"/>
     </properties>
   </persistence-unit>
 </persistence>
