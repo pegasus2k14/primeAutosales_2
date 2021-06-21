@@ -9,11 +9,3 @@ Proyecto realizado con fines didaticos.
 ##Version del proyecto
 Verdion 2 del proyecto
 
-
-##Fecha de finalizacion
-
-
-##Log personal
--Agregado .gitIgnore
--Commit con texto de descripcion de mas de una sola linea
--Commit sin pasar por el area de preparacion.
